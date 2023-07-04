@@ -5,6 +5,7 @@
     Integer id = Integer.valueOf(request.getAttribute("id").toString());
     String salut = request.getAttribute("salut").toString();
     Date date = (Date) request.getAttribute("date");
+    int nbAppels = (int) request.getAttribute("nbAppels");
 %>
 
 <!DOCTYPE html>

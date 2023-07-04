@@ -14,12 +14,15 @@ public class Client {
     String nom;
     Date dateNaissance;
     FileUpload badge;
+    private int nbAppels = 0;
 
     @UrlAnnotation(urlPattern = "client_save.do")
     public ModelView save() {
         ModelView mv = new ModelView();
         mv.setView("client_result_save.jsp");
         mv.addItem("client", this);
+        nbAppels++;
+        mv.addItem("nbAppels", nbAppels);
         return mv;
     }
 

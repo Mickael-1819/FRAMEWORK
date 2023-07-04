@@ -2,6 +2,7 @@
 <%@page import="objets.*" %>
 <%
     Client c = (Client) request.getAttribute("client");
+    int nbAppels = (int) request.getAttribute("nbAppels");
 %>
 
 <!DOCTYPE html>

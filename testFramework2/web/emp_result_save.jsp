@@ -2,6 +2,7 @@
 <%@page import="objets.*" %>
 <%
     Employe e = (Employe) request.getAttribute("employe");
+    int nbAppels = (int) request.getAttribute("nbAppels");
 %>
 
 <!DOCTYPE html>

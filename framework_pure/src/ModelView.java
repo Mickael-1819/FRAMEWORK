@@ -1,10 +1,10 @@
-package etu1793.framework.modelView;
+package etu1819.framework.modelView;
 
 import java.util.HashMap;
 
 public class ModelView {
     String view;
-    HashMap<String, Object> data;
+    HashMap<String, Object> data = new HashMap<String, Object>();
 
     public void addItem(String key, Object value) {
         data.put(key, value);

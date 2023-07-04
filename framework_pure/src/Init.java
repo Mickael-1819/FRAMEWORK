@@ -1,13 +1,13 @@
-package etu1793.framework.init;
+package etu1819.framework.init;
 
-import etu1793.framework.Mapping;
-import etu1793.framework.annotationDao.UrlAnnotation;
+import etu1819.framework.Mapping;
+import etu1819.framework.annotationDao.UrlAnnotation;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import etu1793.framework.utilitaire.Utilitaire;
+import etu1819.framework.utilitaire.Utilitaire;
 
 public class Init {
     public static HashMap<String, Mapping> getUrlMethods(String repertoire) throws Exception {

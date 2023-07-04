@@ -1,6 +1,6 @@
 
-package etu1793.framework;
-import etu1793.framework.annotationDao.UrlAnnotation;
+package etu1819.framework;
+import etu1819.framework.annotationDao.UrlAnnotation;
 
 
 public class Mapping {

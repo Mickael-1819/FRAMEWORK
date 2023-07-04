@@ -1,8 +1,8 @@
-package etu1793.framework.servlet;
+package etu1819.framework.servlet;
 
-import etu1793.framework.Mapping;
-import etu1793.framework.init.Init;
-import etu1793.framework.modelView.ModelView;
+import etu1819.framework.Mapping;
+import etu1819.framework.init.Init;
+import etu1819.framework.modelView.ModelView;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import etu1793.framework.utilitaire.Utilitaire;
+import etu1819.framework.utilitaire.Utilitaire;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.ServletContext;
@@ -80,9 +80,14 @@ public class FrontServlet extends HttpServlet {
                ModelView mv = Utilitaire.getMethodeMV(mappingUrls.get(urlPattern));
                //out.println("modelView.getView -> "+mv.getView());
                //out.println("</br> OK");
-               /*if(mv.getData() instanceof HashMap) {
-
-               }*/
+               out.print("ok");
+               if(mv.getData() instanceof HashMap) {
+                for(Map.Entry<String, Object> entry : mv.getData().entrySet()) {
+                    String key = entry.getKey();
+                    Object o = entry.getValue();
+                    request.setAttribute(key, o);
+                }
+               }
                RequestDispatcher dispat = request.getRequestDispatcher(mv.getView());
                dispat.forward(request, response); 
             }

@@ -1,163 +1,30 @@
 
-package etu1819.framework.utilitaire;
+package etu1793.framework.utilitaire;
 
-import etu1819.framework.Mapping;
-import etu1819.framework.modelView.ModelView;
+import etu1793.framework.Mapping;
+import etu1793.framework.modelView.ModelView;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Map;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.http.HttpServletRequest;
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDate;
-import java.time.ZoneId;
+
+
 
 public class Utilitaire {
-
-    @SuppressWarnings("rawtypes")
-
-    public static Object[] getListeObjetsParametres(Method m, HttpServletRequest request) throws Exception {
-        Parameter [] lp = m.getParameters();
-        Object[] rep = new Object[lp.length];
-
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        for (int i = 0; i < lp.length; i++) {
-            System.out.println("isNamePresent "+lp[i].isNamePresent());
-            System.out.println("nom param "+ lp[i].getName());
-            Annotation[] annotes=lp[i].getAnnotations();
-            for (Annotation annotation : annotes) {
-                if(annotation.annotationType().getSimpleName().equals("ParamAnnotation")) {
-                    String valStr = request.getParameter(annotation.annotationType().getMethod("description").invoke(annotation).toString());
-                    if(valStr != null) {
-                        Class typeParametre = lp[i].getType();
-                        if (typeParametre == int.class) {
-                            int intValue = Integer.parseInt(valStr);
-                            rep[i] = intValue;
-                        }
-                        else if (typeParametre == Integer.class) {
-                            Integer intValue = Integer.parseInt(valStr);
-                            rep[i] = intValue;
-                        }
-                        else if (typeParametre == double.class) {
-                            double doubleValue = Double.parseDouble(valStr);
-                            rep[i] = doubleValue;
-                        }
-                        else if (typeParametre == Double.class) {
-                            Double doubleValue = Double.parseDouble(valStr);
-                            rep[i] = doubleValue;
-                        }
-                        else if (typeParametre == boolean.class) {
-                            boolean booleanValue = Boolean.parseBoolean(valStr);
-                            rep[i] = booleanValue;
-                        } else if (typeParametre == String.class) {
-                            rep[i] = valStr;
-                        }
-                        else if (typeParametre == Date.class) {
-                            LocalDate localDate = LocalDate.parse(valStr.replaceAll("\"", ""), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                            Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                            rep[i] = date;
-                        }
-                    }
-                    else {
-                        rep[i] = null;
-                    }
-                }
-            }
-        }
-
-        return rep;
-    }
-
-
-    public static Object getObjetAttributSetted(Class clazz ,HttpServletRequest request) throws Exception {
-        Object o = clazz.getConstructor().newInstance();
-
-        //set des attributs correspondants
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        for (String parameterName : parameterMap.keySet()) {
-            //verifier ra nom ana attribut ao amle classe ilay parametre
-            if(attributeExists(clazz, parameterName) == true) {
-                Field field = clazz.getDeclaredField(parameterName);
-                field.setAccessible(true);
-                Class typeAttribut = field.getType();
-                String[] parameterValues = parameterMap.get(parameterName);
-                String valStr = parameterValues[0];
-                if (typeAttribut == int.class) {
-                    int intValue = Integer.parseInt(valStr);
-                    field.setInt(o, intValue);
-                }
-                else if (typeAttribut == Integer.class) {
-                    Integer intValue = Integer.parseInt(valStr);
-                    field.set(o, intValue);
-                }
-                else if (typeAttribut == double.class) {
-                    double doubleValue = Double.parseDouble(valStr);
-                    field.setDouble(o, doubleValue);
-                }
-                else if (typeAttribut == Double.class) {
-                    Double doubleValue = Double.parseDouble(valStr);
-                    field.set(o, doubleValue);
-                }
-                else if (typeAttribut == boolean.class) {
-                    boolean booleanValue = Boolean.parseBoolean(valStr);
-                    field.setBoolean(o, booleanValue);
-                } else if (typeAttribut == String.class) {
-                    field.set(o, valStr);
-                }
-                else if (typeAttribut == Date.class) {
-                    LocalDate localDate = LocalDate.parse(valStr.replaceAll("\"", ""), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                    Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                    field.set(o, date);
-                }
-            }
-        }
-        return o;
-    }
-
-    public static ModelView getMethodeMV(Mapping mapping, HttpServletRequest request) throws Exception {
+    
+    public static ModelView getMethodeMV(Mapping mapping) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         String className = mapping.getClassName();
         String methodName = mapping.getMethod();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         Class clazz = loader.loadClass(className);
-        Method methode = null;
-        for (Method m : clazz.getDeclaredMethods()) {
-            if(methodName == m.getName()) {
-                methode = m;
-            }
-        }
-
-        if(methode == null) throw new Exception("aucune methode ne correspond à "+methodName);
-
-        Object o = getObjetAttributSetted(clazz, request);
-        ModelView mv = null;
-
-        if(methode.getParameters().length > 0) {
-            Object[] arguments = getListeObjetsParametres(methode, request);
-            mv = (ModelView) methode.invoke(o, arguments);
-        }
-        else {
-            mv = (ModelView) methode.invoke(o);
-        }
+        Method methode = clazz.getMethod(methodName);
+        Object o = clazz.getConstructor().newInstance();
+        ModelView mv = (ModelView) methode.invoke(o);
         return mv;
-    }
-
-    public static boolean attributeExists(Class clazz, String attributeName) {
-        try {
-          Field field = clazz.getDeclaredField(attributeName);
-          return true;
-        } catch (NoSuchFieldException e) {
-          return false;
-        }
     }
 
     public static String getURLPattern(HttpServletRequest request) throws Exception {

@@ -1,23 +1,22 @@
-package etu1819.framework.servlet;
+package etu1793.framework.servlet;
 
-import etu1819.framework.Mapping;
-import etu1819.framework.init.Init;
-import etu1819.framework.modelView.ModelView;
-import etu1819.framework.utilitaire.Utilitaire;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletContext;
+import etu1793.framework.Mapping;
+import etu1793.framework.init.Init;
+import etu1793.framework.modelView.ModelView;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import etu1793.framework.utilitaire.Utilitaire;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.ServletContext;
-
 
 public class FrontServlet extends HttpServlet {
 
@@ -32,7 +31,7 @@ public class FrontServlet extends HttpServlet {
             //String repertoire = workingDir + "/../webapps"+appName+"/WEB-INF/classes";
             //String repertoire = workingDir + "/build/classes";
             String repertoire = getServletContext().getRealPath("/WEB-INF/classes/");
-            mappingUrls = Init.getUrlMethods(repertoire);
+            mappingUrls = Init.getUrlMethods(repertoire);   
         } catch (Exception e) {
             System.out.print(e.getLocalizedMessage());
         }
@@ -50,7 +49,25 @@ public class FrontServlet extends HttpServlet {
             //String repertoire = workingDir + "/../webapps"+appName+"/WEB-INF/classes";
             //String repertoire = workingDir + "/build/classes";
             String repertoire = getServletContext().getRealPath("/WEB-INF/classes/");
-
+            /*out.print("app name "+appName);
+            out.print("</br>");
+            out.print("user dir "+workingDir);
+            out.print("</br>");
+            out.print("rep de recherche "+repertoire);
+            out.print("</br>");
+            for(Map.Entry<String, Mapping> entry : mappingUrls.entrySet()) {
+                String key = entry.getKey();
+                Mapping m = entry.getValue();
+                out.print("URL "+ key);
+                out.print("</br>");
+                out.print("Classe "+ m.getClassName());
+                out.print("</br>");
+                out.print("Methode "+ m.getMethod());
+                out.print("</br>");
+                out.print("=======");
+                out.print("</br>");
+            }*/
+            
             //out.println("request.getPathInfo() "+request.getPathInfo());
             String urlPattern = Utilitaire.getURLPattern(request);
             //out.println("URL "+urlPattern);
@@ -60,19 +77,14 @@ public class FrontServlet extends HttpServlet {
                //out.println("</br>");
                //out.println("Method selected"+mappingUrls.get(urlPattern).getMethod());
                //out.println("</br>");
-               ModelView mv = Utilitaire.getMethodeMV(mappingUrls.get(urlPattern), request);
+               ModelView mv = Utilitaire.getMethodeMV(mappingUrls.get(urlPattern));
                //out.println("modelView.getView -> "+mv.getView());
                //out.println("</br> OK");
-               out.print("ok");
-               if(mv.getData() instanceof HashMap) {
-                for(Map.Entry<String, Object> entry : mv.getData().entrySet()) {
-                    String key = entry.getKey();
-                    Object o = entry.getValue();
-                    request.setAttribute(key, o);
-                }
-               }
+               /*if(mv.getData() instanceof HashMap) {
+
+               }*/
                RequestDispatcher dispat = request.getRequestDispatcher(mv.getView());
-               dispat.forward(request, response);
+               dispat.forward(request, response); 
             }
             else {
                 out.print("methode referencée par "+urlPattern+" introuvable");

@@ -1,28 +1,13 @@
-webapp=testFramework2
-
-mkdir $webapp
-mkdir $webapp/WEB-INF
-mkdir $webapp/WEB-INF/classes
-mkdir $webapp/WEB-INF/lib
-cp -r ../../web/WEB-INF/web.xml $webapp/WEB-INF/web.xml
-cp -r ../../web/* $webapp/
-
-# Définir le répertoire racine à partir duquel on va compiler les fichiers Java
-repertoire_racine="."
-
-# Trouver tous les fichiers .java dans le répertoire racine et ses sous-répertoires
-fichiers_java=$(find "$repertoire_racine" -type f -name "*.java")
-
-# Compiler chaque fichier .java
-for fichier_java in $fichiers_java; do
-    javac -cp ../../../framework.jar -parameters -d $webapp/WEB-INF/classes "$fichier_java"
-    echo 'compilation de '$fichier_java
-done
-
-#javac -cp ../../../framework.jar -parameters -d $webapp/WEB-INF/classes objets/*.java
-cp -r deployWar.sh $webapp/deployWar.sh
-cp -r ../../../framework.jar $webapp/WEB-INF/lib/framework.jar
-cd $webapp
+mkdir testFramework2
+mkdir testFramework2/WEB-INF
+mkdir testFramework2/WEB-INF/classes
+mkdir testFramework2/WEB-INF/lib
+cp ../../web/WEB-INF/web.xml testFramework2/WEB-INF/web.xml
+cp ../../web/* testFramework2/
+javac -cp ../../../framework.jar -d testFramework2/WEB-INF/classes objets/*.java
+cp -r deployWar.sh testFramework2/deployWar.sh
+cp -r ../../../framework.jar testFramework2/WEB-INF/lib/framework.jar
+cd testFramework2
 bash deployWar.sh
 cd ..
-rm -r $webapp
+rm -r testFramework2

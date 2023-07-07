@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Vector;
 import etu1819.annotation.Urls;
 import etu1819.framework.Mapping;
-    
+
 
 public class Utils {
     static String context = "framework";

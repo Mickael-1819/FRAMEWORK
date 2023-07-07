@@ -1,4 +1,3 @@
-
 package etu1819.annotation;
 
 import java.lang.annotation.*;

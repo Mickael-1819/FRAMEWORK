@@ -6,7 +6,7 @@ NB: importez framework.jar dans votre librairie
 ### ajouter dans votre web.xml dans la balise "web-app" ceci pour definir le mapping vers le frontServlet :
     <servlet>
         <servlet-name>FrontServlet</servlet-name>
-        <servlet-class>etu1793.framework.servlet.FrontServlet</servlet-class>
+        <servlet-class>etu1819.framework.servlet.FrontServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>FrontServlet</servlet-name>

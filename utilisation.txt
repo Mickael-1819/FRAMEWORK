@@ -1,0 +1,69 @@
+
+
+-- FICHIER WEB.XML
+    -- ajout de la servlet : Frontservlet
+        -- ajout de init-param : context
+        -- ayant pour nom celui du contexte web
+    -- redirection de toutes les requetes vers la frontServlet 
+
+    --POUR CE FAIRE COPIER ET COLLER DANS VOTRE WEB.XML LE CONTENU CI DESSOUS 
+    EN MODIFIANT LE NOM DU CONTEXTE WEB
+
+    <servlet>
+      <servlet-name>FrontServlet</servlet-name>
+      <servlet-class>etu1819.framework.servlet.FrontServlet</servlet-class>
+      <init-param>
+        <param-name>context</param-name>
+        <param-value>TFW</param-value>
+        <description>contexte web du projet</description>
+      </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>FrontServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+
+-- DEFINITION DE CLASSES
+    -- VERSION NON STABILISEE: NE PAS ENVOYER DE VARIABLE SANS VALEUR DANS LES REQUETES
+    -- importer les les annotations et la classe ModelView du FW
+        -- import etu1830.annotation.Urls;
+        -- import etu1830.framework.ModelView;
+
+        -- ajouter l'annotation 
+            -- @Urls(url =" _ _ _  NOM D'ANNOTATION DE METHODE ICI_ _ _")
+            -- l'annotation sera l'identifiant de cette methode dans l'application web
+
+        -- TYPES PRIS EN CHARGE POUR LES ATTRIBUTS DE CLASSES ET ARGUMENTS DE FONCTIONS
+            -- types primitifs
+                -- int, float, double, boolean
+                -- String, Integer, Float, Double, Boolean, java.sql.Date
+                -- tous les types de l'API java disposant de la methode statique valueOf(String s)
+
+
+    -- DEFINITION DES METHODES DE CONTROLEUR POUR PASSER DES DONNEES VERS UNE VUE
+        -- les methodes de controleurs retourent un ---->>>> ModelView      
+        -- instancier un ModelView a l'aide du constructeur vide de cette classe
+        -- invoquer son setter: setView("_ _ _ NOM DE LA VUE A APPELER APRES _ _ _")
+        -- _ _ _ vos traitements _ _ _
+
+        -- ajouter une donnee a passer vers la vue:
+            -- invoquer la methode de ModelView:
+                -- addItem("ARG1", ARG2);
+                -- ARG1: _ _ _ CLE ARBITRAIRE POUR IDENTIFIER CETTE VARIABLE A SA RECUPERATION"
+                -- ARG2: _ _ _ LA VARIABLE A AJOUTER
+
+    -- RECUPERATION DE DONNEE DANS LES VUES
+        -- invoquer la methdode getAttribute("arg") de la requetes
+        -- arg: cle d'itentificatioon fournie dans le controleur (cf DEFINITION DE CONTROLEUR)
+        -- ne pas oublier de caster chaque objet vers son type 
+
+    -- DEFINITION DES METHODES DE CONTROLEUR POUR RECUPERER DES DONNEES DEPUIS LES VUES
+    (cas des variables d'URL ou des formulaire)
+        -- POUR DONNER LEURS VALEUR AUX ATTRIBUTS D'UN MODELE
+            -- les noms de variables de la requete correspondent aux noms des attribut
+            -- chaque attribut qui veut recevoir une valeur automatiquement a partir de la vue doit avoir au moins un setter 
+
+        -- FONCTION CONTROLEUR AVEC OU SANS ARGUMENTS
+            -- le nom des variables de la requete correspond a ceux des arguments de la methode a invoquer

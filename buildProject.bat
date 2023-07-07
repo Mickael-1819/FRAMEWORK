@@ -3,7 +3,6 @@ cls
 
 REM classpath 
 set CLASSPATH=%CLASSPATH%;C:\Users\itu\Documents\Mickael\Sprint15\Test-Framework\WEB-INF\lib\hh.jar
-set CLASSPATH=%CLASSPATH%;C:\Users\itu\Documents\Mickael\Sprint15\Test-Framework\WEB-INF\lib\gson-2.8.2.jar
 
 
 REM Déclaration des variables de chemin
@@ -14,11 +13,7 @@ REM Compilation des fichiers de src vers le dossier classes avec l'option parame
  cd Test-Framework\src
 javac -parameters -d . ..\src\*.java
 
-javac  -d  "C:\Users\itu\Documents\Mickael\Sprint15\Test-Framework\WEB-INF\classes" Auths.java
-javac  -d  "C:\Users\itu\Documents\Mickael\Sprint15\Test-Framework\WEB-INF\classes" Empe.java
-javac  -d  "C:\Users\itu\Documents\Mickael\Sprint15\Test-Framework\WEB-INF\classes" Emp.java
-javac  -d  "C:\Users\itu\Documents\Mickael\Sprint15\Test-Framework\WEB-INF\classes" Etu.java
-
+javac  -d  "C:\Users\itu\Documents\Mickael\Sprint15\Test-Framework\WEB-INF\classes" *.java
 cd ../../
 
 REM chemin vers le repertoire webapps de tomcat

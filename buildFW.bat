@@ -17,6 +17,5 @@ cd ..\..\
 
 REM copie vers le projet de test
 copy hh.jar Test-Framework\WEB-INF\lib
-set "gson=C:\Users\itu\Documents\Mickael\Sprint15\Test-Framework\WEB-INF\lib\gson-2.8.2.jar"
 
 
